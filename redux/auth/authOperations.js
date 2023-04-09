@@ -2,6 +2,7 @@ import { authActions } from "./authSlice";
 import {
   getAuth,
   updateProfile,
+  signOut,
   onAuthStateChanged,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -38,7 +39,11 @@ export const authSignUp =
     }
   };
 
-const authSignOut = () => async (dispatch, getState) => {};
+export const authSignOut = () => async (dispatch, getState) => {
+  const auth = getAuth();
+  await signOut(auth);
+  dispatch(authActions.authSignOut());
+};
 
 export const authStateChange = () => async (dispatch, getState) => {
   const auth = getAuth();

@@ -8,7 +8,6 @@ import ProfileScreen from "../Screens/Main/ProfileScreen";
 import LoginScreen from "../Screens/LoginScreen/LoginScreen";
 import { authStateChange } from "../redux/auth/authOperations";
 import RegistrationScreen from "../Screens/RegistrationScreen/RegistrationScreen";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
   AntDesign,
   Feather,

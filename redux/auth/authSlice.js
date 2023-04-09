@@ -19,6 +19,7 @@ export const authSlice = createSlice({
       ...state,
       stateChange: action.payload,
     }),
+    authSignOut: () => initialState,
   },
 });
 
