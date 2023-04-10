@@ -1,4 +1,8 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { firestore } from "../../firebase/config";
+import { collection, addDoc } from "firebase/firestore";
 import {
   TouchableWithoutFeedback,
   TouchableOpacity,
@@ -18,18 +22,45 @@ const CreatePostsScreen = ({ navigation }) => {
   const [snap, setSnap] = useState(null);
   const [photo, setPhoto] = useState(null);
   const [imageName, setImageName] = useState("");
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState(null);
   const [isLocationActive, setIsLocationActive] = useState(false);
   const [isImageNameActive, setIsImageNameActive] = useState(false);
   const [isKeyboard, setIsKeyboard] = useState(false);
+  const { userId, nickName } = useSelector((state) => state.auth);
 
   const takePhoto = async () => {
     const photo = await snap.takePictureAsync();
-    const location = await Location.getCurrentPositionAsync();
+    // const location = await Location.getCurrentPositionAsync();
     setPhoto(photo.uri);
   };
 
+  const uploadPhoto = async () => {
+    const photoId = Date.now().toString();
+    const storage = getStorage();
+    const storageRef = ref(storage, `posts/${photoId}`);
+    await uploadBytes(storageRef, photo);
+    const loadedPhoto = await getDownloadURL(storageRef);
+    return loadedPhoto;
+  };
+
+  const uploadPostToServer = async () => {
+    try {
+      const photo = await uploadPhoto();
+      const postRef = await addDoc(collection(firestore, "posts"), {
+        photo,
+        imageName,
+        location: location.coords,
+        userId,
+        nickName,
+      });
+      console.log("Document written with ID: ", postRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
+
   const sendPhoto = () => {
+    uploadPostToServer();
     navigation.navigate("Posts", { photo });
   };
 
@@ -38,14 +69,11 @@ const CreatePostsScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    async () => {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
-      }
-    };
+    (async () => {
+      await Location.requestForegroundPermissionsAsync();
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
   }, []);
 
   return (
