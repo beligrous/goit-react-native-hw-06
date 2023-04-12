@@ -35,10 +35,16 @@ const CreatePostsScreen = ({ navigation }) => {
   };
 
   const uploadPhoto = async () => {
+    const response = await fetch(photo);
+    const blobFile = await response.blob();
     const photoId = Date.now().toString();
     const storage = getStorage();
-    const storageRef = ref(storage, `posts/${photoId}`);
-    await uploadBytes(storageRef, photo);
+    const storageRef = ref(storage, `posts/${photoId}.jpg`);
+    const metadata = {
+      contentType: "image/jpeg",
+    };
+    await uploadBytes(storageRef, blobFile, metadata);
+
     const loadedPhoto = await getDownloadURL(storageRef);
     return loadedPhoto;
   };
@@ -53,7 +59,6 @@ const CreatePostsScreen = ({ navigation }) => {
         userId,
         nickName,
       });
-      console.log("Document written with ID: ", postRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -61,7 +66,7 @@ const CreatePostsScreen = ({ navigation }) => {
 
   const sendPhoto = () => {
     uploadPostToServer();
-    navigation.navigate("Posts", { photo });
+    navigation.navigate("Posts");
   };
 
   const deletePhoto = () => {

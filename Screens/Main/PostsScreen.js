@@ -1,15 +1,28 @@
 import { useState, useEffect } from "react";
 import { Image, View, StyleSheet, FlatList, Pressable } from "react-native";
+import { firestore } from "../../firebase/config";
+import { collection, onSnapshot } from "firebase/firestore";
 
-const PostsScreen = ({ navigation, route }) => {
+const PostsScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    if (!route.params) {
-      return;
+  const getPosts = async () => {
+    try {
+      onSnapshot(collection(firestore, "posts"), (snap) => {
+        let items = [];
+        snap.forEach((doc) => items.push({ ...doc.data(), id: doc.id }));
+        setPosts(items);
+      });
+    } catch (error) {
+      console.log(error.message);
     }
-    setPosts((prevState) => [...prevState, route.params]);
-  }, [route.params]);
+  };
+
+  useEffect(() => {
+    (async () => {
+      await getPosts();
+    })();
+  }, []);
 
   return (
     <View style={styles.container}>
