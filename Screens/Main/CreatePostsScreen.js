@@ -23,6 +23,7 @@ const CreatePostsScreen = ({ navigation }) => {
   const [photo, setPhoto] = useState(null);
   const [imageName, setImageName] = useState("");
   const [location, setLocation] = useState(null);
+  const [locationName, setLocationName] = useState("");
   const [isLocationActive, setIsLocationActive] = useState(false);
   const [isImageNameActive, setIsImageNameActive] = useState(false);
   const [isKeyboard, setIsKeyboard] = useState(false);
@@ -55,6 +56,7 @@ const CreatePostsScreen = ({ navigation }) => {
       const postRef = await addDoc(collection(firestore, "posts"), {
         photo,
         imageName,
+        locationName,
         location: location.coords,
         userId,
         nickName,
@@ -120,8 +122,8 @@ const CreatePostsScreen = ({ navigation }) => {
           />
           <TextInput
             placeholder="Місцевість"
-            value={location}
-            onChangeText={(value) => setLocation(value)}
+            value={locationName}
+            onChangeText={(value) => setLocationName(value)}
             onFocus={() => {
               setIsKeyboard(true);
               setIsLocationActive(true);

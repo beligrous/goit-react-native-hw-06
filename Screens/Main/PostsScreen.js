@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
-import { Image, View, StyleSheet, FlatList, Pressable } from "react-native";
+import {
+  Image,
+  Text,
+  View,
+  StyleSheet,
+  FlatList,
+  Pressable,
+} from "react-native";
 import { firestore } from "../../firebase/config";
 import { collection, onSnapshot } from "firebase/firestore";
 
@@ -32,13 +39,19 @@ const PostsScreen = ({ navigation }) => {
         renderItem={({ item }) => (
           <View style={{ marginBottom: 32 }}>
             <Image source={{ uri: item.photo }} style={styles.image} />
+            <Text>{item.imageName}</Text>
             <View style={styles.nested}>
               <Pressable onPress={() => navigation.navigate("Comments")}>
                 <Image source={require("../image/message-circle.png")} />
               </Pressable>
-              <Pressable onPress={() => navigation.navigate("Map")}>
+              <Pressable
+                onPress={() =>
+                  navigation.navigate("Map", { location: item.location })
+                }
+              >
                 <Image source={require("../image/map-pin.png")} />
               </Pressable>
+              <Text>{item.locationName}</Text>
             </View>
           </View>
         )}
