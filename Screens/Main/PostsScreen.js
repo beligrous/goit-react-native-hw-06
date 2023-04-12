@@ -43,7 +43,10 @@ const PostsScreen = ({ navigation }) => {
             <View style={styles.nested}>
               <Pressable
                 onPress={() =>
-                  navigation.navigate("Comments", { postId: item.id })
+                  navigation.navigate("Comments", {
+                    postId: item.id,
+                    postPhoto: item.photo,
+                  })
                 }
               >
                 <Image source={require("../image/message-circle.png")} />
