@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { firestore } from "../../firebase/config";
+import { collection, addDoc, doc } from "firebase/firestore";
 import {
-  Text,
+  Image,
   View,
   StyleSheet,
   Keyboard,
@@ -9,20 +12,24 @@ import {
   TextInput,
 } from "react-native";
 
-const CommentsScreen = () => {
+const CommentsScreen = ({ route }) => {
   const [comment, setComment] = useState("");
   const [isCommentActive, setIsCommentActive] = useState(false);
-  const [isKeyboard, setIsKeyboard] = useState(false);
+  const postId = route.params.postId;
+  const { nickName } = useSelector((state) => state.auth);
 
-  const addCommentHandler = () => {
-    console.log(comment);
+  const addCommentHandler = async () => {
+    const docRef = doc(firestore, "posts", postId);
+    await addDoc(collection(docRef, "comments"), {
+      comment,
+      nickName,
+    });
   };
 
   return (
     <TouchableWithoutFeedback
       onPress={() => {
         Keyboard.dismiss();
-        setIsKeyboard(false);
       }}
     >
       <View style={styles.container}>
@@ -31,25 +38,20 @@ const CommentsScreen = () => {
           value={comment}
           onChangeText={(value) => setComment(value)}
           onFocus={() => {
-            setIsKeyboard(true);
             setIsCommentActive(true);
           }}
           onBlur={() => setIsCommentActive(false)}
           style={{
             ...styles.input,
             borderColor: isCommentActive ? "#FF6C00" : "#E8E8E8",
-            marginBottom: isKeyboard ? 32 : 43,
           }}
         />
         <TouchableOpacity
           onPress={addCommentHandler}
           activeOpacity={0.7}
-          style={{
-            ...styles.btn,
-            backgroundColor: comment ? "#FF6C00" : "#F6F6F6",
-          }}
+          style={styles.btn}
         >
-          <Text>Опублікувати</Text>
+          <Image source={require("../image/Send.png")} />
         </TouchableOpacity>
       </View>
     </TouchableWithoutFeedback>
@@ -60,9 +62,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "flex-end",
-    // alignItems: "center",
   },
   btn: {
+    position: "absolute",
+    right: 10,
+    bottom: 32,
     height: 50,
     marginHorizontal: 16,
     justifyContent: "center",
@@ -72,13 +76,15 @@ const styles = StyleSheet.create({
     borderColor: "transparent",
   },
   input: {
+    position: "relative",
     fontFamily: "Roboto-Regular",
     height: 50,
     backgroundColor: "#F6F6F6",
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 25,
     padding: 16,
     marginHorizontal: 16,
+    marginBottom: 32,
   },
 });
 
