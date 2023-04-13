@@ -109,11 +109,12 @@ const styles = StyleSheet.create({
     borderColor: "transparent",
   },
   comment: {
-    backgroundColor: "#BDBDBD",
+    borderColor: "#BDBDBD",
+    borderWidth: 1,
     marginBottom: 15,
-    padding: 5,
+    padding: 10,
     borderRadius: 5,
-    marginHorizontal: 25,
+    marginHorizontal: 55,
   },
   image: {
     alignSelf: "center",

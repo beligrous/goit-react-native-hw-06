@@ -132,7 +132,7 @@ const CreatePostsScreen = ({ navigation }) => {
             style={{
               ...styles.input,
               borderColor: isLocationActive ? "#FF6C00" : "#E8E8E8",
-              marginBottom: isKeyboard ? 32 : 43,
+              marginTop: isKeyboard ? 1 : 16,
             }}
           />
           <TouchableOpacity
@@ -148,8 +148,11 @@ const CreatePostsScreen = ({ navigation }) => {
           <TouchableOpacity
             onPress={deletePhoto}
             style={{
-              marginTop: 100,
+              marginTop: 50,
               alignSelf: "center",
+              borderColor: "#BDBDBD",
+              borderWidth: 1,
+              borderRadius: 25,
             }}
           >
             <Image source={require("../image/trash.png")} />
@@ -186,16 +189,17 @@ const styles = StyleSheet.create({
   btn: {
     height: 50,
     marginHorizontal: 16,
+    marginTop: 32,
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
     borderRadius: 100,
-    borderColor: "transparent",
+    borderColor: "#BDBDBD",
   },
   input: {
     fontFamily: "Roboto-Regular",
     height: 50,
-    backgroundColor: "#F6F6F6",
+    borderColor: "#BDBDBD",
     borderWidth: 1,
     borderRadius: 5,
     padding: 16,
