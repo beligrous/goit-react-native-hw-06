@@ -4,7 +4,7 @@ import MapScreen from "./MapScreen";
 import PostsScreen from "./PostsScreen";
 import CommentsScreen from "./CommentsScreen";
 
-const HomeScreen = ({ navigation, route }) => {
+const HomeScreen = () => {
   const Stack = createStackNavigator();
   return (
     <View style={styles.container}>
@@ -14,8 +14,8 @@ const HomeScreen = ({ navigation, route }) => {
           options={{ headerShown: false }}
           component={PostsScreen}
         />
-        <Stack.Screen name="Map" component={MapScreen} />
-        <Stack.Screen name="Comments" component={CommentsScreen} />
+        <Stack.Screen name="Локація" component={MapScreen} />
+        <Stack.Screen name="Коментарі" component={CommentsScreen} />
       </Stack.Navigator>
     </View>
   );

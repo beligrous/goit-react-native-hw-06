@@ -43,7 +43,7 @@ const PostsScreen = ({ navigation }) => {
             <View style={styles.nested}>
               <Pressable
                 onPress={() =>
-                  navigation.navigate("Comments", {
+                  navigation.navigate("Коментарі", {
                     postId: item.id,
                     postPhoto: item.photo,
                   })
