@@ -33,6 +33,7 @@ function RegistrationScreen({ navigation }) {
   // const { logIn } = useUser();
   const dispatch = useDispatch();
   const { isLoad } = useSelector((state) => state.auth);
+  const { error } = useSelector((state) => state.auth);
 
   // const [dimensions, setDimensions] = useState(
   //   Dimensions.get("window").width - 16 * 2
@@ -64,87 +65,90 @@ function RegistrationScreen({ navigation }) {
   }
 
   const renderScreen = (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        Keyboard.dismiss();
-        setIsKeyboard(false);
-      }}
-    >
-      <ImageBackground
-        style={styles.image}
-        source={require("../image/PhotoBG.jpg")}
+    <>
+      {error && <Text>{error}</Text>}
+      <TouchableWithoutFeedback
+        onPress={() => {
+          Keyboard.dismiss();
+          setIsKeyboard(false);
+        }}
       >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        <ImageBackground
+          style={styles.image}
+          source={require("../image/PhotoBG.jpg")}
         >
-          <View style={styles.container}>
-            <View style={styles.photo}></View>
-            <Text style={styles.title}>Реєстрація</Text>
-            <TextInput
-              placeholder="Логін"
-              value={login}
-              onChangeText={(value) => setLogin(value)}
-              onFocus={() => {
-                setIsKeyboard(true);
-                setIsLoginActive(true);
-              }}
-              onBlur={() => setIsLoginActive(false)}
-              style={{
-                ...styles.input,
-                borderColor: isLoginActive ? "#FF6C00" : "#E8E8E8",
-              }}
-            />
-            <TextInput
-              placeholder="Адреса електронної пошти"
-              value={email}
-              onChangeText={(value) => setEmail(value)}
-              onFocus={() => {
-                setIsKeyboard(true);
-                setIsEmailActive(true);
-              }}
-              onBlur={() => setIsEmailActive(false)}
-              style={{
-                ...styles.input,
-                borderColor: isEmailActive ? "#FF6C00" : "#E8E8E8",
-              }}
-            />
-            <TextInput
-              secureTextEntry={true}
-              placeholder="Пароль"
-              value={password}
-              onChangeText={(value) => setPassword(value)}
-              onFocus={() => {
-                setIsKeyboard(true);
-                setIsPasswordActive(true);
-              }}
-              onBlur={() => setIsPasswordActive(false)}
-              style={{
-                ...styles.input,
-                borderColor: isPasswordActive ? "#FF6C00" : "#E8E8E8",
-                marginBottom: isKeyboard ? 32 : 43,
-              }}
-            />
-            {!isKeyboard && (
-              <>
-                <TouchableOpacity
-                  onPress={formSubmit}
-                  activeOpacity={0.7}
-                  style={styles.btn}
-                >
-                  <Text style={styles.btnTitle}>Увійти</Text>
-                </TouchableOpacity>
-                <Text
-                  style={styles.noAcountTitle}
-                  onPress={() => navigation.navigate("Login")}
-                >
-                  Вже є акаунт? Увійти
-                </Text>
-              </>
-            )}
-          </View>
-        </KeyboardAvoidingView>
-      </ImageBackground>
-    </TouchableWithoutFeedback>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+          >
+            <View style={styles.container}>
+              <View style={styles.photo}></View>
+              <Text style={styles.title}>Реєстрація</Text>
+              <TextInput
+                placeholder="Логін"
+                value={login}
+                onChangeText={(value) => setLogin(value)}
+                onFocus={() => {
+                  setIsKeyboard(true);
+                  setIsLoginActive(true);
+                }}
+                onBlur={() => setIsLoginActive(false)}
+                style={{
+                  ...styles.input,
+                  borderColor: isLoginActive ? "#FF6C00" : "#E8E8E8",
+                }}
+              />
+              <TextInput
+                placeholder="Адреса електронної пошти"
+                value={email}
+                onChangeText={(value) => setEmail(value)}
+                onFocus={() => {
+                  setIsKeyboard(true);
+                  setIsEmailActive(true);
+                }}
+                onBlur={() => setIsEmailActive(false)}
+                style={{
+                  ...styles.input,
+                  borderColor: isEmailActive ? "#FF6C00" : "#E8E8E8",
+                }}
+              />
+              <TextInput
+                secureTextEntry={true}
+                placeholder="Пароль"
+                value={password}
+                onChangeText={(value) => setPassword(value)}
+                onFocus={() => {
+                  setIsKeyboard(true);
+                  setIsPasswordActive(true);
+                }}
+                onBlur={() => setIsPasswordActive(false)}
+                style={{
+                  ...styles.input,
+                  borderColor: isPasswordActive ? "#FF6C00" : "#E8E8E8",
+                  marginBottom: isKeyboard ? 32 : 43,
+                }}
+              />
+              {!isKeyboard && (
+                <>
+                  <TouchableOpacity
+                    onPress={formSubmit}
+                    activeOpacity={0.7}
+                    style={styles.btn}
+                  >
+                    <Text style={styles.btnTitle}>Увійти</Text>
+                  </TouchableOpacity>
+                  <Text
+                    style={styles.noAcountTitle}
+                    onPress={() => navigation.navigate("Login")}
+                  >
+                    Вже є акаунт? Увійти
+                  </Text>
+                </>
+              )}
+            </View>
+          </KeyboardAvoidingView>
+        </ImageBackground>
+      </TouchableWithoutFeedback>
+    </>
   );
 
   return isLoad ? (

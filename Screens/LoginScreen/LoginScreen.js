@@ -25,6 +25,7 @@ function LoginScreen({ navigation }) {
 
   const dispatch = useDispatch();
   const { isLoad } = useSelector((state) => state.auth);
+  const { error } = useSelector((state) => state.auth);
   const [fontsLoaded] = useFonts({
     "Roboto-Medium": require("../font/Roboto-Medium.ttf"),
     "Roboto-Regular": require("../font/Roboto-Regular.ttf"),
@@ -41,74 +42,77 @@ function LoginScreen({ navigation }) {
   }
 
   const renderScreen = (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        Keyboard.dismiss();
-        setIsKeyboard(false);
-      }}
-    >
-      <ImageBackground
-        style={styles.image}
-        source={require("../image/PhotoBG.jpg")}
+    <>
+      {error && <Text>{error}</Text>}
+      <TouchableWithoutFeedback
+        onPress={() => {
+          Keyboard.dismiss();
+          setIsKeyboard(false);
+        }}
       >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        <ImageBackground
+          style={styles.image}
+          source={require("../image/PhotoBG.jpg")}
         >
-          <View style={styles.container}>
-            <Text style={styles.title}>Увійти</Text>
-            <TextInput
-              value={email}
-              onChangeText={(value) => setEmail(value)}
-              placeholder="Адреса електронної пошти"
-              onFocus={() => {
-                setIsKeyboard(true);
-                setIsEmailActive(true);
-              }}
-              onBlur={() => setIsEmailActive(false)}
-              style={{
-                ...styles.input,
-                borderColor: isEmailActive ? "#FF6C00" : "#E8E8E8",
-              }}
-            />
-            <TextInput
-              value={password}
-              onChangeText={(value) => {
-                setPassword(value);
-              }}
-              secureTextEntry={true}
-              placeholder="Пароль"
-              style={{
-                ...styles.input,
-                borderColor: isPasswordActive ? "#FF6C00" : "#E8E8E8",
-                marginBottom: isKeyboard ? 32 : 43,
-              }}
-              onBlur={() => setPasswordActive(false)}
-              onFocus={() => {
-                setIsKeyboard(true);
-                setPasswordActive(true);
-              }}
-            />
-            {!isKeyboard && (
-              <>
-                <TouchableOpacity
-                  onPress={formSubmit}
-                  activeOpacity={0.7}
-                  style={styles.btn}
-                >
-                  <Text style={styles.btnTitle}>Увійти</Text>
-                </TouchableOpacity>
-                <Text
-                  style={styles.noAcountTitle}
-                  onPress={() => navigation.navigate("Registration")}
-                >
-                  Ще немає акаунта? Зареєструватися
-                </Text>
-              </>
-            )}
-          </View>
-        </KeyboardAvoidingView>
-      </ImageBackground>
-    </TouchableWithoutFeedback>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+          >
+            <View style={styles.container}>
+              <Text style={styles.title}>Увійти</Text>
+              <TextInput
+                value={email}
+                onChangeText={(value) => setEmail(value)}
+                placeholder="Адреса електронної пошти"
+                onFocus={() => {
+                  setIsKeyboard(true);
+                  setIsEmailActive(true);
+                }}
+                onBlur={() => setIsEmailActive(false)}
+                style={{
+                  ...styles.input,
+                  borderColor: isEmailActive ? "#FF6C00" : "#E8E8E8",
+                }}
+              />
+              <TextInput
+                value={password}
+                onChangeText={(value) => {
+                  setPassword(value);
+                }}
+                secureTextEntry={true}
+                placeholder="Пароль"
+                style={{
+                  ...styles.input,
+                  borderColor: isPasswordActive ? "#FF6C00" : "#E8E8E8",
+                  marginBottom: isKeyboard ? 32 : 43,
+                }}
+                onBlur={() => setPasswordActive(false)}
+                onFocus={() => {
+                  setIsKeyboard(true);
+                  setPasswordActive(true);
+                }}
+              />
+              {!isKeyboard && (
+                <>
+                  <TouchableOpacity
+                    onPress={formSubmit}
+                    activeOpacity={0.7}
+                    style={styles.btn}
+                  >
+                    <Text style={styles.btnTitle}>Увійти</Text>
+                  </TouchableOpacity>
+                  <Text
+                    style={styles.noAcountTitle}
+                    onPress={() => navigation.navigate("Registration")}
+                  >
+                    Ще немає акаунта? Зареєструватися
+                  </Text>
+                </>
+              )}
+            </View>
+          </KeyboardAvoidingView>
+        </ImageBackground>
+      </TouchableWithoutFeedback>
+    </>
   );
 
   return isLoad ? (
