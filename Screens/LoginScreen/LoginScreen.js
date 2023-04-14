@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useFonts } from "expo-font";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ImageBackground,
+  ActivityIndicator,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Platform,
@@ -23,7 +24,7 @@ function LoginScreen({ navigation }) {
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
-
+  const { isLoad } = useSelector((state) => state.auth);
   const [fontsLoaded] = useFonts({
     "Roboto-Medium": require("../font/Roboto-Medium.ttf"),
     "Roboto-Regular": require("../font/Roboto-Regular.ttf"),
@@ -39,7 +40,7 @@ function LoginScreen({ navigation }) {
     return null;
   }
 
-  return (
+  const renderScreen = (
     <TouchableWithoutFeedback
       onPress={() => {
         Keyboard.dismiss();
@@ -108,6 +109,21 @@ function LoginScreen({ navigation }) {
         </KeyboardAvoidingView>
       </ImageBackground>
     </TouchableWithoutFeedback>
+  );
+
+  return isLoad ? (
+    <View
+      style={{
+        flex: 1,
+        borderTopWidth: 2,
+        borderColor: "#F6F6F6",
+        justifyContent: "center",
+      }}
+    >
+      <ActivityIndicator size="large" />
+    </View>
+  ) : (
+    renderScreen
   );
 }
 

@@ -4,22 +4,47 @@ const initialState = {
   userId: null,
   nickName: null,
   stateChange: false,
+  error: null,
+  isLoad: false,
 };
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    updateUserProfile: (state, action) => ({
+    updateUserProfileInProgress: (state) => ({
+      ...state,
+      isLoad: true,
+    }),
+    updateUserProfileSuccess: (state, action) => ({
       ...state,
       userId: action.payload.userId,
       nickName: action.payload.nickName,
+      isLoad: false,
     }),
-    authStateChange: (state, action) => ({
+    updateUserProfileError: (state, action) => ({
+      ...state,
+      error: action.payload,
+      isLoad: false,
+    }),
+    authStateChangeInProgress: (state) => ({ ...state, isLoad: true }),
+    authStateChangeSuccess: (state, action) => ({
       ...state,
       stateChange: action.payload,
+      isLoad: false,
     }),
-    authSignOut: () => initialState,
+    authStateChangeError: (state, action) => ({
+      ...state,
+      error: action.payload,
+      isLoad: false,
+    }),
+    authSignOutInProgress: (state) => ({ ...state, isLoad: true }),
+    authSignOutSuccess: (state) => ({ ...initialState }),
+    authSignOutError: (state, action) => ({
+      ...state,
+      error: action.payload,
+      isLoad: false,
+    }),
   },
 });
 

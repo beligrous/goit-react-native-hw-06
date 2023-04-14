@@ -8,12 +8,7 @@ import ProfileScreen from "../Screens/Main/ProfileScreen";
 import LoginScreen from "../Screens/LoginScreen/LoginScreen";
 import { authStateChange } from "../redux/auth/authOperations";
 import RegistrationScreen from "../Screens/RegistrationScreen/RegistrationScreen";
-import {
-  AntDesign,
-  Feather,
-  Ionicons,
-  MaterialIcons,
-} from "@expo/vector-icons";
+import { AntDesign, Feather } from "@expo/vector-icons";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -51,7 +46,7 @@ const Router = () => {
           ),
           headerTitleAlign: "center",
         }}
-        name="Публікації"
+        name="Home"
         component={HomeScreen}
       />
       <Tab.Screen

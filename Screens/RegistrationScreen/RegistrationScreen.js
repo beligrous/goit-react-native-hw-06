@@ -8,11 +8,12 @@ import {
   ImageBackground,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
+  ActivityIndicator,
   Platform,
   Keyboard,
 } from "react-native";
 // import { useUser } from "../../src/userContext";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import { Dimensions } from "react-native";
 import { useFonts } from "expo-font";
 import { authSignUp } from "../../redux/auth/authOperations";
@@ -31,6 +32,7 @@ function RegistrationScreen({ navigation }) {
 
   // const { logIn } = useUser();
   const dispatch = useDispatch();
+  const { isLoad } = useSelector((state) => state.auth);
 
   // const [dimensions, setDimensions] = useState(
   //   Dimensions.get("window").width - 16 * 2
@@ -51,7 +53,6 @@ function RegistrationScreen({ navigation }) {
   // }, []);
 
   const formSubmit = () => {
-    // logIn({ login, email, password });
     dispatch(authSignUp({ email, password, login }));
     setEmail("");
     setLogin("");
@@ -62,7 +63,7 @@ function RegistrationScreen({ navigation }) {
     return null;
   }
 
-  return (
+  const renderScreen = (
     <TouchableWithoutFeedback
       onPress={() => {
         Keyboard.dismiss();
@@ -144,6 +145,21 @@ function RegistrationScreen({ navigation }) {
         </KeyboardAvoidingView>
       </ImageBackground>
     </TouchableWithoutFeedback>
+  );
+
+  return isLoad ? (
+    <View
+      style={{
+        flex: 1,
+        borderTopWidth: 2,
+        borderColor: "#F6F6F6",
+        justifyContent: "center",
+      }}
+    >
+      <ActivityIndicator size="large" />
+    </View>
+  ) : (
+    renderScreen
   );
 }
 
