@@ -32,6 +32,7 @@ export const authSlice = createSlice({
       ...state,
       stateChange: action.payload,
       isLoad: false,
+      error: null,
     }),
     authStateChangeError: (state, action) => ({
       ...state,

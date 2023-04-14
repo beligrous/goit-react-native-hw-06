@@ -27,6 +27,7 @@ const CreatePostsScreen = ({ navigation }) => {
   const [isLocationActive, setIsLocationActive] = useState(false);
   const [isImageNameActive, setIsImageNameActive] = useState(false);
   const [isKeyboard, setIsKeyboard] = useState(false);
+  const [error, setError] = useState("");
   const { userId, nickName } = useSelector((state) => state.auth);
 
   const takePhoto = async () => {
@@ -53,7 +54,7 @@ const CreatePostsScreen = ({ navigation }) => {
   const uploadPostToServer = async () => {
     try {
       const photo = await uploadPhoto();
-      const postRef = await addDoc(collection(firestore, "posts"), {
+      await addDoc(collection(firestore, "posts"), {
         photo,
         imageName,
         locationName,
@@ -62,13 +63,13 @@ const CreatePostsScreen = ({ navigation }) => {
         nickName,
       });
     } catch (e) {
-      console.error("Error adding document: ", e);
+      setError("Error adding document: ", e);
     }
   };
 
   const sendPhoto = () => {
     uploadPostToServer();
-    navigation.navigate("Posts");
+    navigation.navigate("Публікації");
   };
 
   const deletePhoto = () => {
@@ -91,6 +92,11 @@ const CreatePostsScreen = ({ navigation }) => {
       }}
     >
       <View style={styles.container}>
+        {error && (
+          <View style={{ margin: 50 }}>
+            <Text>{error}</Text>
+          </View>
+        )}
         <Camera style={styles.camera} type={CameraType.back} ref={setSnap}>
           {photo && (
             <View style={styles.photo}>

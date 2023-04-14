@@ -12,6 +12,7 @@ import { collection, onSnapshot } from "firebase/firestore";
 
 const PostsScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
+  const [error, setError] = useState("");
 
   const getPosts = async () => {
     try {
@@ -21,7 +22,7 @@ const PostsScreen = ({ navigation }) => {
         setPosts(items);
       });
     } catch (error) {
-      console.log(error.message);
+      setError(error.message);
     }
   };
 
@@ -33,6 +34,11 @@ const PostsScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      {error && (
+        <View>
+          <Text style={{ margin: 50 }}>{error}</Text>
+        </View>
+      )}
       <FlatList
         data={posts}
         keyExtractor={(item, index) => index.toString()}

@@ -19,6 +19,7 @@ const CommentsScreen = ({ route }) => {
   const [comment, setComment] = useState("");
   const [allComments, setAllComments] = useState([]);
   const [isCommentActive, setIsCommentActive] = useState(false);
+  const [error, setError] = useState("");
   const postId = route.params.postId;
   const postPhoto = route.params.postPhoto;
   const { nickName } = useSelector((state) => state.auth);
@@ -28,13 +29,17 @@ const CommentsScreen = ({ route }) => {
   }, []);
 
   const addCommentHandler = async () => {
-    const docRef = doc(firestore, "posts", postId);
-    await addDoc(collection(docRef, "comments"), {
-      comment,
-      nickName,
-    });
-    setComment("");
-    Keyboard.dismiss();
+    try {
+      const docRef = doc(firestore, "posts", postId);
+      await addDoc(collection(docRef, "comments"), {
+        comment,
+        nickName,
+      });
+      setComment("");
+      Keyboard.dismiss();
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   const getAllComments = async () => {
@@ -53,6 +58,11 @@ const CommentsScreen = ({ route }) => {
       }}
     >
       <View style={styles.container}>
+        {error && (
+          <View style={{ margin: 50 }}>
+            <Text>{error}</Text>
+          </View>
+        )}
         <Image source={{ uri: postPhoto }} style={styles.image} />
         <SafeAreaView style={styles.container}>
           <FlatList

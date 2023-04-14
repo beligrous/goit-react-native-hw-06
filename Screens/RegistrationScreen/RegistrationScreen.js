@@ -66,7 +66,11 @@ function RegistrationScreen({ navigation }) {
 
   const renderScreen = (
     <>
-      {error && <Text>{error}</Text>}
+      {error && (
+        <View style={{ margin: 50 }}>
+          <Text>{error}</Text>
+        </View>
+      )}
       <TouchableWithoutFeedback
         onPress={() => {
           Keyboard.dismiss();
