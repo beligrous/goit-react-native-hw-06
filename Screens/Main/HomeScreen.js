@@ -8,14 +8,22 @@ const HomeScreen = () => {
   const Stack = createStackNavigator();
   return (
     <View style={styles.container}>
-      <Stack.Navigator initialRouteName="Posts">
+      <Stack.Navigator initialRouteName="Публікації">
         <Stack.Screen
-          name={"Posts"}
-          options={{ headerShown: false }}
+          name="Публікації"
           component={PostsScreen}
+          options={{ headerTitleAlign: "center" }}
         />
-        <Stack.Screen name="Локація" component={MapScreen} />
-        <Stack.Screen name="Коментарі" component={CommentsScreen} />
+        <Stack.Screen
+          name="Локація"
+          component={MapScreen}
+          options={{ headerTitleAlign: "center" }}
+        />
+        <Stack.Screen
+          name="Коментарі"
+          component={CommentsScreen}
+          options={{ headerTitleAlign: "center" }}
+        />
       </Stack.Navigator>
     </View>
   );

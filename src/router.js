@@ -45,16 +45,11 @@ const Router = () => {
     <Tab.Navigator screenOptions={{ tabBarShowLabel: false }}>
       <Tab.Screen
         options={{
+          headerShown: false,
           tabBarIcon: ({ size, color }) => (
             <AntDesign name="appstore-o" size={size} color={color} />
           ),
           headerTitleAlign: "center",
-          headerLeft: ({ color }) => (
-            <Ionicons name="arrow-back" size={28} color={color} />
-          ),
-          headerRight: ({ color }) => (
-            <MaterialIcons name="logout" size={24} color={color} />
-          ),
         }}
         name="Публікації"
         component={HomeScreen}

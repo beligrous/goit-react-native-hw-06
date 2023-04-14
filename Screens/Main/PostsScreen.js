@@ -53,7 +53,7 @@ const PostsScreen = ({ navigation }) => {
               </Pressable>
               <Pressable
                 onPress={() =>
-                  navigation.navigate("Map", { location: item.location })
+                  navigation.navigate("Локація", { location: item.location })
                 }
               >
                 <Image source={require("../image/map-pin.png")} />
